@@ -165,6 +165,8 @@ function possibleMoves(emptyIndex) {
 }
 
 function slideTile(clickedPos) {
+  
+  console.log("Tuile cliquée :", clickedPos);
   const emptyIndex = sliderState.indexOf(8); // position de la case vide
   // Vérifier si la tuile cliquée est adjacente à la case vide
   const rClicked = Math.floor(clickedPos / 3), cClicked = clickedPos % 3;
