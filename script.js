@@ -24,12 +24,15 @@ document.addEventListener('click', e => {
 });
 
 // --- Fonctions principales ---
+
 function start() {
   document.getElementById('intro').classList.add('hidden');
   document.getElementById('puzzle-area').classList.remove('hidden');
   showSection('p1');
   setupSlider();
+  shuffleSlider();
 }
+
 
 function showSection(id) {
   document.querySelectorAll('.puzzle, #final').forEach(s => s.classList.add('hidden'));
