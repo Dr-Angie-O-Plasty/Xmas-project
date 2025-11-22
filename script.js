@@ -24,15 +24,13 @@ document.addEventListener('click', e => {
 });
 
 // --- Fonctions principales ---
-
 function start() {
   document.getElementById('intro').classList.add('hidden');
   document.getElementById('puzzle-area').classList.remove('hidden');
   showSection('p1');
   setupSlider();
-  shuffleSlider();
+  shuffleSlider(); // Mélange le puzzle dès le début
 }
-
 
 function showSection(id) {
   document.querySelectorAll('.puzzle, #final').forEach(s => s.classList.add('hidden'));
@@ -120,8 +118,10 @@ function setupSlider() {
     div.style.backgroundSize = "320px 320px";
     const row = Math.floor(i / 3), col = i % 3;
     div.style.backgroundPosition = `-${col * TILE_SIZE}px -${row * TILE_SIZE}px`;
-    div.dataset.pos = i;
-    div.addEventListener('click', () => { slideTile(i); });
+    div.dataset.pos = i; // position dans la grille
+    div.addEventListener('click', function() {
+      slideTile(i); // i = position dans la grille
+    });
     slider.appendChild(div);
   }
 }
@@ -141,13 +141,13 @@ function renderSlider() {
   const slider = document.getElementById('slider');
   const tiles = slider.querySelectorAll('.tile');
   for (let i = 0; i < 9; i++) {
-    const tileIndex = sliderState[i];
+    const tileNum = sliderState[i]; // numéro de tuile à la position i
     const tile = tiles[i];
-    const row = Math.floor(tileIndex / 3), col = tileIndex % 3;
+    const row = Math.floor(tileNum / 3), col = tileNum % 3;
     tile.style.backgroundImage = `url('${IMAGE_PATH}')`;
     tile.style.backgroundSize = "320px 320px";
     tile.style.backgroundPosition = `-${col * TILE_SIZE}px -${row * TILE_SIZE}px`;
-    if (tileIndex === 8) tile.classList.add('hidden'); else tile.classList.remove('hidden');
+    if (tileNum === 8) tile.classList.add('hidden'); else tile.classList.remove('hidden');
   }
 }
 
@@ -165,22 +165,16 @@ function possibleMoves(emptyIndex) {
   return moves;
 }
 
-
 function slideTile(clickedPos) {
-  
-  console.log("Tuile cliquée :", clickedPos);
-  const emptyIndex = sliderState.indexOf(8); // 8 = case vide
-  const tileIndex = sliderState.indexOf(clickedPos);
-
-  // Trouver la position (ligne, colonne) de la tuile cliquée et de la case vide
-  const rClicked = Math.floor(tileIndex / 3), cClicked = tileIndex % 3;
+  const emptyIndex = sliderState.indexOf(8); // position de la case vide
+  // Vérifier si la tuile cliquée est adjacente à la case vide
+  const rClicked = Math.floor(clickedPos / 3), cClicked = clickedPos % 3;
   const rEmpty = Math.floor(emptyIndex / 3), cEmpty = emptyIndex % 3;
-
-  // Vérifier si la tuile est adjacente à la case vide
   const dist = Math.abs(rClicked - rEmpty) + Math.abs(cClicked - cEmpty);
+
   if (dist === 1) {
-    // Échanger la tuile cliquée et la case vide
-    [sliderState[tileIndex], sliderState[emptyIndex]] = [sliderState[emptyIndex], sliderState[tileIndex]];
+    // Échanger les tuiles dans sliderState
+    [sliderState[clickedPos], sliderState[emptyIndex]] = [sliderState[emptyIndex], sliderState[clickedPos]];
     renderSlider();
     if (isSliderSolved()) {
       document.getElementById('p2-feedback').textContent = 'Image reconstituée ! Bravo.';
@@ -189,7 +183,6 @@ function slideTile(clickedPos) {
     }
   }
 }
-
 
 function isSliderSolved() {
   for (let i = 0; i < 9; i++) {
