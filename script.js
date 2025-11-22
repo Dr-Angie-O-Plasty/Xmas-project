@@ -82,7 +82,7 @@ function updateFinal(){
 // --- Slider puzzle implementation ---
 
 const TILE_SIZE = 320 / 3; // 320px divisé par 3
-const TILE_SOURCES = Array.from({length: 9}, (_, i) => i); // indices 0 à 8
+const IMAGE_PATH = "main/image.jpg"; // Chemin vers ton image
 
 function setupSlider() {
   const slider = document.getElementById('slider');
@@ -93,7 +93,7 @@ function setupSlider() {
     div.className = 'tile';
     if(i===8){ div.classList.add('hidden'); div.dataset.empty='true'; }
     // Positionner le morceau de l'image
-    div.style.backgroundImage = "url('main/image.jpg')";
+    div.style.backgroundImage = `url('${IMAGE_PATH}')`;
     div.style.backgroundSize = "320px 320px";
     const row = Math.floor(i/3), col = i%3;
     div.style.backgroundPosition = `-${col*TILE_SIZE}px -${row*TILE_SIZE}px`;
@@ -102,6 +102,7 @@ function setupSlider() {
     slider.appendChild(div);
   }
 }
+
 
 let sliderState = []; // array of tile indices, 0..8, with 8 representing empty
 function setupSlider(){
@@ -132,16 +133,21 @@ function shuffleSlider(){
   renderSlider();
 }
 
-function renderSlider(){
+
+function renderSlider() {
   const slider = document.getElementById('slider');
   const tiles = slider.querySelectorAll('.tile');
   for(let i=0;i<9;i++){
     const tileIndex = sliderState[i];
     const tile = tiles[i];
-    tile.style.backgroundImage = `url('${TILE_SOURCES[tileIndex]}')`;
+    const row = Math.floor(tileIndex/3), col = tileIndex%3;
+    tile.style.backgroundImage = `url('${IMAGE_PATH}')`;
+    tile.style.backgroundSize = "320px 320px";
+    tile.style.backgroundPosition = `-${col*TILE_SIZE}px -${row*TILE_SIZE}px`;
     if(tileIndex===8) tile.classList.add('hidden'); else tile.classList.remove('hidden');
   }
 }
+
 
 function possibleMoves(emptyIndex){
   const moves = [];
