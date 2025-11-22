@@ -7,7 +7,7 @@ let hintsLeft = 3;
 
 // --- Puzzle taquin ---
 const TILE_SIZE = 320 / 3; // 320px divisé par 3
-const IMAGE_PATH = "main/image.jpg"; // Chemin vers ton image
+const IMAGE_PATH = "https://github.com/thomasbessy/Xmas-project/blob/main/image.jpg"; // Chemin vers ton image
 let sliderState = []; // ordre des tuiles (indices 0..8, 8 = vide)
 
 // --- Gestion des clics ---
