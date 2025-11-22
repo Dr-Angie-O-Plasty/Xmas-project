@@ -7,7 +7,7 @@ let hintsLeft = 3;
 
 // --- Puzzle taquin ---
 const TILE_SIZE = 320 / 3; // 320px divisé par 3
-const IMAGE_PATH = const IMAGE_PATH = "https://raw.githubusercontent.com/thomasbessy/Xmas-project/main/image.jpg";
+const IMAGE_PATH = "https://raw.githubusercontent.com/thomasbessy/Xmas-project/main/image.jpg";
 let sliderState = []; // ordre des tuiles (indices 0..8, 8 = vide)
 
 // --- Gestion des clics ---
@@ -104,3 +104,85 @@ function updateFinal() {
   }
 }
 
+// --- Taquin : initialisation et rendu ---
+function setupSlider() {
+  const slider = document.getElementById('slider');
+  slider.innerHTML = '';
+  sliderState = [0,1,2,3,4,5,6,7,8]; // ordre initial
+  for (let i = 0; i < 9; i++) {
+    const div = document.createElement('div');
+    div.className = 'tile';
+    if (i === 8) { div.classList.add('hidden'); div.dataset.empty = 'true'; }
+    div.style.backgroundImage = `url('${IMAGE_PATH}')`;
+    div.style.backgroundSize = "320px 320px";
+    const row = Math.floor(i / 3), col = i % 3;
+    div.style.backgroundPosition = `-${col * TILE_SIZE}px -${row * TILE_SIZE}px`;
+    div.dataset.pos = i;
+    div.addEventListener('click', () => { slideTile(i); });
+    slider.appendChild(div);
+  }
+}
+
+function shuffleSlider() {
+  // Mélange le puzzle avec des mouvements légaux
+  for (let k = 0; k < 200; k++) {
+    const emptyIndex = sliderState.indexOf(8);
+    const moves = possibleMoves(emptyIndex);
+    const pick = moves[Math.floor(Math.random() * moves.length)];
+    [sliderState[emptyIndex], sliderState[pick]] = [sliderState[pick], sliderState[emptyIndex]];
+  }
+  renderSlider();
+}
+
+function renderSlider() {
+  const slider = document.getElementById('slider');
+  const tiles = slider.querySelectorAll('.tile');
+  for (let i = 0; i < 9; i++) {
+    const tileIndex = sliderState[i];
+    const tile = tiles[i];
+    const row = Math.floor(tileIndex / 3), col = tileIndex % 3;
+    tile.style.backgroundImage = `url('${IMAGE_PATH}')`;
+    tile.style.backgroundSize = "320px 320px";
+    tile.style.backgroundPosition = `-${col * TILE_SIZE}px -${row * TILE_SIZE}px`;
+    if (tileIndex === 8) tile.classList.add('hidden'); else tile.classList.remove('hidden');
+  }
+}
+
+function possibleMoves(emptyIndex) {
+  const moves = [];
+  const r = Math.floor(emptyIndex / 3), c = emptyIndex % 3;
+  const neighbors = [
+    [r - 1, c], [r + 1, c], [r, c - 1], [r, c + 1]
+  ];
+  neighbors.forEach(n => {
+    if (n[0] >= 0 && n[0] < 3 && n[1] >= 0 && n[1] < 3) {
+      moves.push(n[0] * 3 + n[1]);
+    }
+  });
+  return moves;
+}
+
+function slideTile(clickedPos) {
+  const emptyIndex = sliderState.indexOf(8);
+  const tileIndex = sliderState.indexOf(clickedPos);
+  if (tileIndex === -1) return;
+  const rClicked = Math.floor(tileIndex / 3), cClicked = tileIndex % 3;
+  const rEmpty = Math.floor(emptyIndex / 3), cEmpty = emptyIndex % 3;
+  const dist = Math.abs(rClicked - rEmpty) + Math.abs(cClicked - cEmpty);
+  if (dist === 1) {
+    [sliderState[tileIndex], sliderState[emptyIndex]] = [sliderState[emptyIndex], sliderState[tileIndex]];
+    renderSlider();
+    if (isSliderSolved()) {
+      document.getElementById('p2-feedback').textContent = 'Image reconstituée ! Bravo.';
+      solved.p2 = true;
+      updateFinal();
+    }
+  }
+}
+
+function isSliderSolved() {
+  for (let i = 0; i < 9; i++) {
+    if (sliderState[i] !== i) return false;
+  }
+  return true;
+}
