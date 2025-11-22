@@ -139,14 +139,14 @@ function render_slider(state) {
   const slider = document.getElementById('slider');
   const tiles = slider.querySelectorAll('.tile');
   for (let i = 0; i < 9; i++) {
-    const tileNum = state[i]; // identité de la tuile à la position i
-    const tile = tiles[i];
-    if (tileNum === 8) {
+    const tileID = state[i]; // identité de la tuile à la position i
+    const tile = tiles[tileID];
+    if (tileID === 8) {
       tile.style.background = "#222";
       tile.style.backgroundImage = "";
       tile.classList.add('hidden');
     } else {
-      const row = Math.floor(tileNum / 3), col = tileNum % 3;
+      const row = Math.floor(i / 3), col = i % 3;
       tile.style.background = "";
       tile.style.backgroundImage = `url('${IMAGE_PATH}')`;
       tile.style.backgroundSize = "320px 320px";
