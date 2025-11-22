@@ -5,10 +5,6 @@ const CORRECT = { p1: "JEAN CHRISTOPHE", p2: "", p3: "9" };
 let solved = { p1: false, p2: false, p3: false };
 let hintsLeft = 3;
 
-// --- Puzzle taquin ---
-const TILE_SIZE = 320 / 3; // 320px divisé par 3
-const IMAGE_PATH = "https://raw.githubusercontent.com/thomasbessy/Xmas-project/main/image.jpg";
-let sliderState = []; // ordre des tuiles (indices 0..8, 8 = vide)
 
 // --- Gestion des clics ---
 document.addEventListener('click', e => {
@@ -105,54 +101,62 @@ function updateFinal() {
   }
 }
 
-// --- Taquin : initialisation et rendu ---
+// --- Taquin ---
 
-function setupSlider() {
+const TILE_SIZE = 320 / 3;
+const IMAGE_PATH = "https://raw.githubusercontent.com/thomasbessy/Xmas-project/main/image.jpg";
+let slide_state_solved = [0,1,2,3,4,5,6,7,8];
+let slide_state = [];
+
+// --- Initialisation du puzzle au démarrage ---
+function setup_slider() {
   const slider = document.getElementById('slider');
   slider.innerHTML = '';
-  sliderState = [0,1,2,3,4,5,6,7,8]; // ordre initial
+  // Création des tuiles en état résolu
   for (let i = 0; i < 9; i++) {
     const div = document.createElement('div');
     div.className = 'tile';
-    div.dataset.index = i; // position dans la grille
+    div.dataset.index = i;
+    div.addEventListener('click', function() {
+      slide_tile(i); // i = position dans la grille
+    });
     slider.appendChild(div);
   }
-  renderSlider();
+  // Mélange légal pour obtenir slide_state
+  slide_state = slide_state_solved.slice();
+  for (let k = 0; k < 200; k++) {
+    const emptyIndex = slide_state.indexOf(8);
+    const moves = possible_moves(emptyIndex);
+    const pick = moves[Math.floor(Math.random() * moves.length)];
+    [slide_state[emptyIndex], slide_state[pick]] = [slide_state[pick], slide_state[emptyIndex]];
+  }
+  render_slider(slide_state);
 }
 
-function renderSlider() {
+// --- Affichage du puzzle selon l'ordre donné ---
+function render_slider(state) {
   const slider = document.getElementById('slider');
   const tiles = slider.querySelectorAll('.tile');
   for (let i = 0; i < 9; i++) {
-    const tileNum = sliderState[i]; // numéro de tuile à la position i
+    const tileNum = state[i]; // identité de la tuile à la position i
     const tile = tiles[i];
-    const row = Math.floor(tileNum / 3), col = tileNum % 3;
-    tile.style.backgroundImage = `url('${IMAGE_PATH}')`;
-    tile.style.backgroundSize = "320px 320px";
-    tile.style.backgroundPosition = `-${col * TILE_SIZE}px -${row * TILE_SIZE}px`;
-    tile.classList.toggle('hidden', tileNum === 8);
-
-    // Supprime l'ancien event pour éviter les bugs
-    tile.replaceWith(tile.cloneNode(true));
-    const newTile = slider.querySelectorAll('.tile')[i];
-    newTile.onclick = function() {
-      slideTile(i); // i = position affichée dans la grille
-    };
+    if (tileNum === 8) {
+      tile.style.background = "#222";
+      tile.style.backgroundImage = "";
+      tile.classList.add('hidden');
+    } else {
+      const row = Math.floor(tileNum / 3), col = tileNum % 3;
+      tile.style.background = "";
+      tile.style.backgroundImage = `url('${IMAGE_PATH}')`;
+      tile.style.backgroundSize = "320px 320px";
+      tile.style.backgroundPosition = `-${col * TILE_SIZE}px -${row * TILE_SIZE}px`;
+      tile.classList.remove('hidden');
+    }
   }
 }
 
-function shuffleSlider() {
-  // Mélange le puzzle avec des mouvements légaux
-  for (let k = 0; k < 200; k++) {
-    const emptyIndex = sliderState.indexOf(8);
-    const moves = possibleMoves(emptyIndex);
-    const pick = moves[Math.floor(Math.random() * moves.length)];
-    [sliderState[emptyIndex], sliderState[pick]] = [sliderState[pick], sliderState[emptyIndex]];
-  }
-  renderSlider();
-}
-
-function possibleMoves(emptyIndex) {
+// --- Calcul des mouvements légaux ---
+function possible_moves(emptyIndex) {
   const moves = [];
   const r = Math.floor(emptyIndex / 3), c = emptyIndex % 3;
   const neighbors = [
@@ -166,20 +170,18 @@ function possibleMoves(emptyIndex) {
   return moves;
 }
 
-function slideTile(clickedPos) {
-  
-  console.log("Tuile cliquée :", clickedPos);
-  const emptyIndex = sliderState.indexOf(8); // position de la case vide
-  // Vérifier si la tuile cliquée est adjacente à la case vide
+// --- Déplacement d'une tuile lors d'un clic ---
+function slide_tile(clickedPos) {
+  const emptyIndex = slide_state.indexOf(8);
   const rClicked = Math.floor(clickedPos / 3), cClicked = clickedPos % 3;
   const rEmpty = Math.floor(emptyIndex / 3), cEmpty = emptyIndex % 3;
   const dist = Math.abs(rClicked - rEmpty) + Math.abs(cClicked - cEmpty);
 
   if (dist === 1) {
-    // Échanger les tuiles dans sliderState
-    [sliderState[clickedPos], sliderState[emptyIndex]] = [sliderState[emptyIndex], sliderState[clickedPos]];
-    renderSlider();
-    if (isSliderSolved()) {
+    [slide_state[clickedPos], slide_state[emptyIndex]] = [slide_state[emptyIndex], slide_state[clickedPos]];
+    render_slider(slide_state);
+    // Vérification de la résolution
+    if (slide_state.every((val, idx) => val === slide_state_solved[idx])) {
       document.getElementById('p2-feedback').textContent = 'Image reconstituée ! Bravo.';
       solved.p2 = true;
       updateFinal();
@@ -187,9 +189,6 @@ function slideTile(clickedPos) {
   }
 }
 
-function isSliderSolved() {
-  for (let i = 0; i < 9; i++) {
-    if (sliderState[i] !== i) return false;
-  }
-  return true;
-}
+// --- Appelle setup_slider au démarrage du jeu ---
+document.addEventListener('DOMContentLoaded', setup_slider);
+
