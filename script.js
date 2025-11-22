@@ -34,19 +34,19 @@ function submit(target){
   if(target==='p1'){
     const val = (document.getElementById('p1-answer').value||'').trim().toUpperCase();
     const fb = document.getElementById('p1-feedback');
-    if(val===CORRECT.p1){ fb.textContent='Correct — code A47 enregistré.'; solved.p1=true; fb.style.color='#114b3b'; }
+    if(val===CORRECT.p1){ fb.textContent='Correct — code enregistré.'; solved.p1=true; fb.style.color='#114b3b'; }
     else { fb.textContent='Ce n\'est pas ça. Réessaie.'; fb.style.color='#8b1010'; }
   }
   if(target==='p2'){
     const val = (document.getElementById('p2-answer').value||'').trim().toUpperCase();
     const fb = document.getElementById('p2-feedback');
-    if(val===CORRECT.p2){ fb.textContent='Correct — code B12 enregistré.'; solved.p2=true; fb.style.color='#114b3b'; }
+    if(val===CORRECT.p2){ fb.textContent='Correct — code enregistré.'; solved.p2=true; fb.style.color='#114b3b'; }
     else { fb.textContent='Ce code ne correspond pas.'; fb.style.color='#8b1010'; }
   }
   if(target==='p3'){
     const val = (document.getElementById('p3-answer').value||'').trim().toUpperCase();
     const fb = document.getElementById('p3-feedback');
-    if(val===CORRECT.p3){ fb.textContent='Exact — tu as trouvé le bon détective.'; solved.p3=true; fb.style.color='#114b3b'; }
+    if(val===CORRECT.p3){ fb.textContent='Exact — tu semble être la bonne personne.'; solved.p3=true; fb.style.color='#114b3b'; }
     else { fb.textContent='Mauvaise réponse.'; fb.style.color='#8b1010'; }
   }
   updateFinal();
