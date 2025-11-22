@@ -167,6 +167,8 @@ function possibleMoves(emptyIndex) {
 
 
 function slideTile(clickedPos) {
+  
+  console.log("Tuile cliquée :", clickedPos);
   const emptyIndex = sliderState.indexOf(8); // 8 = case vide
   const tileIndex = sliderState.indexOf(clickedPos);
 
