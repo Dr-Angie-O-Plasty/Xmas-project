@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Enquête — Puzzle Pack</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Enquête : Retrouve-moi</h1>
+    <p>Trois petites énigmes. Chaque bonne réponse te rapproche. Tu peux demander un indice (limité).</p>
+  </header>
+
+  <main id="app">
+    <section id="intro" class="card">
+      <h2>Bienvenue</h2>
+      <p>Commence par la première énigme. Quand tu obtiendras les trois codes, tu auras l'instruction finale.</p>
+      <button data-action="start">Commencer</button>
+    </section>
+
+    <section id="puzzle-area" class="hidden">
+      <nav class="puz-nav">
+        <button data-action="show" data-target="p1">Énigme 1 — Chiffre</button>
+        <button data-action="show" data-target="p2">Énigme 2 — Puzzle glissant</button>
+        <button data-action="show" data-target="p3">Énigme 3 — Logique</button>
+        <button data-action="show" data-target="final" class="right">Étape finale</button>
+      </nav>
+
+      <div id="p1" class="card puzzle">
+        <h3>Énigme 1 — Message chiffré</h3>
+        <p>Un message a été chiffré par un décalage de 3. Déchiffre et entre le mot caché.</p>
+        <div class="center">
+          <div class="boxed">KHOOR ZRUOG A47</div>
+        </div>
+        <label>Réponse : <input id="p1-answer" placeholder="ENTRE ICI" /></label>
+        <div class="actions">
+          <button data-action="submit" data-target="p1">Valider</button>
+          <button data-action="hint" data-target="p1">Indice</button>
+          <div class="feedback" id="p1-feedback"></div>
+        </div>
+      </div>
+
+      <div id="p2" class="card puzzle hidden">
+        <h3>Énigme 2 — Puzzle glissant (3×3)</h3>
+        <p>Remets l'image en ordre. Quand c'est fait, entre le code visible sur l'image.</p>
+        <div id="slider-wrapper">
+          <div id="slider"></div>
+        </div>
+        <label>Code sur l'image : <input id="p2-answer" placeholder="EX : B12" /></label>
+        <div class="actions">
+          <button data-action="shuffle">Mélanger</button>
+          <button data-action="submit" data-target="p2">Valider</button>
+          <button data-action="hint" data-target="p2">Indice</button>
+          <div class="feedback" id="p2-feedback"></div>
+        </div>
+      </div>
+
+      <div id="p3" class="card puzzle hidden">
+        <h3>Énigme 3 — Petite logique</h3>
+        <p>Trois détectives A, B et C donnent des durées pour une course. Seul un détective ment. Qui donne la bonne durée ?</p>
+        <ol>
+          <li>A : "Ça a pris 2 heures."</li>
+          <li>B : "Ça a pris 120 minutes."</li>
+          <li>C : "Ça a pris 75 minutes."</li>
+        </ol>
+        <label>Réponse (nom) : <input id="p3-answer" placeholder="A, B ou C" /></label>
+        <div class="actions">
+          <button data-action="submit" data-target="p3">Valider</button>
+          <button data-action="hint" data-target="p3">Indice</button>
+          <div class="feedback" id="p3-feedback"></div>
+        </div>
+      </div>
+
+      <section id="final" class="card hidden">
+        <h3>Étape finale</h3>
+        <p id="final-text">Tu dois d'abord résoudre les 3 énigmes.</p>
+        <div id="final-content" class="hidden">
+          <p>Félicitations ! Tu as rassemblé les codes :</p>
+          <ul id="codes-list"></ul>
+          <p>Appelle le numéro suivant pour continuer l'enquête :</p>
+          <p class="phone" id="phone-number">[NUMÉRO À PERSONNALISER]</p>
+        </div>
+      </section>
+
+      <footer class="card small">
+        <p>Indices restants : <span id="hints-left">3</span></p>
+        <p class="small">Personnalise le numéro final dans <code>script.js</code> (variable <code>FINAL_PHONE</code>).</p>
+      </footer>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
