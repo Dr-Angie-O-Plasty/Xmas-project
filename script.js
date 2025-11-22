@@ -165,14 +165,19 @@ function possibleMoves(emptyIndex) {
   return moves;
 }
 
+
 function slideTile(clickedPos) {
-  const emptyIndex = sliderState.indexOf(8);
+  const emptyIndex = sliderState.indexOf(8); // 8 = case vide
   const tileIndex = sliderState.indexOf(clickedPos);
-  if (tileIndex === -1) return;
+
+  // Trouver la position (ligne, colonne) de la tuile cliquée et de la case vide
   const rClicked = Math.floor(tileIndex / 3), cClicked = tileIndex % 3;
   const rEmpty = Math.floor(emptyIndex / 3), cEmpty = emptyIndex % 3;
+
+  // Vérifier si la tuile est adjacente à la case vide
   const dist = Math.abs(rClicked - rEmpty) + Math.abs(cClicked - cEmpty);
   if (dist === 1) {
+    // Échanger la tuile cliquée et la case vide
     [sliderState[tileIndex], sliderState[emptyIndex]] = [sliderState[emptyIndex], sliderState[tileIndex]];
     renderSlider();
     if (isSliderSolved()) {
@@ -182,6 +187,7 @@ function slideTile(clickedPos) {
     }
   }
 }
+
 
 function isSliderSolved() {
   for (let i = 0; i < 9; i++) {
