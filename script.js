@@ -1,6 +1,6 @@
 // Puzzle site logic
 const FINAL_PHONE = "+33 6 12 34 56 78"; // <-- personnalise ici
-const CORRECT = { p1: "HELLO WORLD A47", p2: "B12", p3: "B" };
+const CORRECT = { p1: "JEAN CHRISTOPHE", p2: "B12", p3: "9" };
 let solved = { p1:false, p2:false, p3:false };
 let hintsLeft = 3;
 
@@ -55,9 +55,9 @@ function submit(target){
 function giveHint(target){
   if(hintsLeft<=0){ alert('Plus d\'indices disponibles.'); return; }
   hintsLeft--; document.getElementById('hints-left').textContent = hintsLeft;
-  if(target==='p1') alert('Indice p1: "Décalage de 3 vers la gauche"');
-  if(target==='p2') alert('Indice p2: "Le code est au centre de l\'image."');
-  if(target==='p3') alert('Indice p3: "Deux affirmations disent la même durée."');
+  if(target==='p1') alert('Indice p1: "Vers la gauche pas la droite banane"');
+  if(target==='p2') alert('Indice p2: "Nope, je ne peux pas aider."');
+  if(target==='p3') alert('Indice p3: "Toute famille vient par deux"');
 }
 
 function updateFinal(){
