@@ -130,6 +130,7 @@ function setup_slider() {
     const pick = moves[Math.floor(Math.random() * moves.length)];
     [slide_state[emptyIndex], slide_state[pick]] = [slide_state[pick], slide_state[emptyIndex]];
   }
+  console.log(slide_state);
   render_slider(slide_state);
 }
 
