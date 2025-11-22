@@ -189,35 +189,3 @@ function isSliderSolved(){
 }
 
 
-/* Styles pour le puzzle taquin */
-#slider-wrapper {
-  width: 320px;
-  height: 320px;
-  margin: 12px 0;
-}
-
-#slider {
-  width: 320px;
-  height: 320px;
-  border-radius: 6px;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-  gap: 2px;
-  background: #222;
-  padding: 2px;
-}
-
-.tile {
-  width: 106px; /* 320px / 3 */
-  height: 106px;
-  background-size: 320px 320px;
-  background-repeat: no-repeat;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.tile.hidden {
-  visibility: hidden;
-}
-
