@@ -20,12 +20,12 @@ document.addEventListener('click', e => {
 });
 
 // --- Fonctions principales ---
+
 function start() {
   document.getElementById('intro').classList.add('hidden');
   document.getElementById('puzzle-area').classList.remove('hidden');
   showSection('p1');
-  setupSlider();
-  shuffleSlider(); // Mélange le puzzle dès le début
+  setup_slider(); 
 }
 
 function showSection(id) {
