@@ -110,20 +110,19 @@ function setupSlider() {
   const slider = document.getElementById('slider');
   slider.innerHTML = '';
   sliderState = [0,1,2,3,4,5,6,7,8]; // ordre initial
+  
   for (let i = 0; i < 9; i++) {
     const div = document.createElement('div');
     div.className = 'tile';
     if (i === 8) { div.classList.add('hidden'); div.dataset.empty = 'true'; }
-    div.style.backgroundImage = `url('${IMAGE_PATH}')`;
-    div.style.backgroundSize = "320px 320px";
-    const row = Math.floor(i / 3), col = i % 3;
-    div.style.backgroundPosition = `-${col * TILE_SIZE}px -${row * TILE_SIZE}px`;
+    // ... autres styles ...
     div.dataset.pos = i; // position dans la grille
     div.addEventListener('click', function() {
-      slideTile(i); // i = position dans la grille
+      slideTile(i); // i = position dans la grille (0 à 8)
     });
     slider.appendChild(div);
   }
+
 }
 
 function shuffleSlider() {
