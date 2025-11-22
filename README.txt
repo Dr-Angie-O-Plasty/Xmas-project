@@ -1,4 +1,3 @@
-Voici le début d'un projet de mini site avec enigmes. Il y a trois enigmes à résoudre avant d'accéder à la dernière page. par contre j'aimerai que tu changes l'énigme 2. J'aimerai que cela devienne un puzzle de type taquin à réaliser avec la photo nomée "image" dans le dossier, cette photo appraitrait coupée et mélangé, et lénigme serait complétée quand l'image est ordonnée. Peux tu le faire s'il te plait ?
 # Enquête — Mini-site (fichiers statiques)
 
 Contenu :
