@@ -106,32 +106,16 @@ function updateFinal() {
 }
 
 // --- Taquin : initialisation et rendu ---
+
 function setupSlider() {
   const slider = document.getElementById('slider');
   slider.innerHTML = '';
   sliderState = [0,1,2,3,4,5,6,7,8]; // ordre initial
-  
   for (let i = 0; i < 9; i++) {
     const div = document.createElement('div');
     div.className = 'tile';
-    if (i === 8) { div.classList.add('hidden'); div.dataset.empty = 'true'; }
-    // ... autres styles ...
-    div.dataset.pos = i; // position dans la grille
-    div.addEventListener('click', function() {
-      slideTile(i); // i = position dans la grille (0 à 8)
-    });
+    div.dataset.index = i; // position dans la grille
     slider.appendChild(div);
-  }
-
-}
-
-function shuffleSlider() {
-  // Mélange le puzzle avec des mouvements légaux
-  for (let k = 0; k < 200; k++) {
-    const emptyIndex = sliderState.indexOf(8);
-    const moves = possibleMoves(emptyIndex);
-    const pick = moves[Math.floor(Math.random() * moves.length)];
-    [sliderState[emptyIndex], sliderState[pick]] = [sliderState[pick], sliderState[emptyIndex]];
   }
   renderSlider();
 }
@@ -146,8 +130,26 @@ function renderSlider() {
     tile.style.backgroundImage = `url('${IMAGE_PATH}')`;
     tile.style.backgroundSize = "320px 320px";
     tile.style.backgroundPosition = `-${col * TILE_SIZE}px -${row * TILE_SIZE}px`;
-    if (tileNum === 8) tile.classList.add('hidden'); else tile.classList.remove('hidden');
+    tile.classList.toggle('hidden', tileNum === 8);
+
+    // Supprime l'ancien event pour éviter les bugs
+    tile.replaceWith(tile.cloneNode(true));
+    const newTile = slider.querySelectorAll('.tile')[i];
+    newTile.onclick = function() {
+      slideTile(i); // i = position affichée dans la grille
+    };
   }
+}
+
+function shuffleSlider() {
+  // Mélange le puzzle avec des mouvements légaux
+  for (let k = 0; k < 200; k++) {
+    const emptyIndex = sliderState.indexOf(8);
+    const moves = possibleMoves(emptyIndex);
+    const pick = moves[Math.floor(Math.random() * moves.length)];
+    [sliderState[emptyIndex], sliderState[pick]] = [sliderState[pick], sliderState[emptyIndex]];
+  }
+  renderSlider();
 }
 
 function possibleMoves(emptyIndex) {
