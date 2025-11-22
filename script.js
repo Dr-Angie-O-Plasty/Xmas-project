@@ -172,6 +172,8 @@ function possible_moves(emptyIndex) {
 
 // --- Déplacement d'une tuile lors d'un clic ---
 function slide_tile(clickedPos) {
+  
+  console.log("Tuile cliquée : pos ", clickedPos);
   const emptyIndex = slide_state.indexOf(8);
   const rClicked = Math.floor(clickedPos / 3), cClicked = clickedPos % 3;
   const rEmpty = Math.floor(emptyIndex / 3), cEmpty = emptyIndex % 3;
