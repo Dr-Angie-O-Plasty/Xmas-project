@@ -9,7 +9,7 @@
 <body>
   <header>
     <h1>Enquête : Retrouve-moi</h1>
-    <p>Trois petites énigmes. Chaque bonne réponse te rapproche. Tu peux demander un indice (limité).</p>
+    <p>Trois petites énigmes. Chaque bonne réponse te rapproche. Tu peux demander un indice.</p>
   </header>
 
   <main id="app">
@@ -21,17 +21,17 @@
 
     <section id="puzzle-area" class="hidden">
       <nav class="puz-nav">
-        <button data-action="show" data-target="p1">Énigme 1 — Chiffre</button>
-        <button data-action="show" data-target="p2">Énigme 2 — Puzzle glissant</button>
-        <button data-action="show" data-target="p3">Énigme 3 — Logique</button>
+        <button data-action="show" data-target="p1">Énigme 1 — Identite</button>
+        <button data-action="show" data-target="p2">Énigme 2 — Puzzle </button>
+        <button data-action="show" data-target="p3">Énigme 3 — Identite</button>
         <button data-action="show" data-target="final" class="right">Étape finale</button>
       </nav>
 
       <div id="p1" class="card puzzle">
         <h3>Énigme 1 — Message chiffré</h3>
-        <p>Un message a été chiffré par un décalage de 3. Déchiffre et entre le mot caché.</p>
+        <p>Un indice a été chiffré par un décalage de 3. Déchiffre et entre le mot caché.</p>
         <div class="center">
-          <div class="boxed">KHOOR ZRUOG A47</div>
+          <div class="boxed">MHDQ FKULVRSKH</div>
         </div>
         <label>Réponse : <input id="p1-answer" placeholder="ENTRE ICI" /></label>
         <div class="actions">
@@ -57,14 +57,10 @@
       </div>
 
       <div id="p3" class="card puzzle hidden">
-        <h3>Énigme 3 — Petite logique</h3>
-        <p>Trois détectives A, B et C donnent des durées pour une course. Seul un détective ment. Qui donne la bonne durée ?</p>
-        <ol>
-          <li>A : "Ça a pris 2 heures."</li>
-          <li>B : "Ça a pris 120 minutes."</li>
-          <li>C : "Ça a pris 75 minutes."</li>
-        </ol>
-        <label>Réponse (nom) : <input id="p3-answer" placeholder="A, B ou C" /></label>
+        <h3>Énigme 3 — Identité</h3>
+        <p>Bonjour agent, tu as l'air moivé à me retrouver, mais je dois vérifier ton identité pour vérifier que tu es bien la bonne personne !
+        Dis-moi, combien de cousines à tu ?</p>
+        <label>Réponse : <input id="p3-answer" placeholder="Pas de chiffre après la virgule ahah" /></label>
         <div class="actions">
           <button data-action="submit" data-target="p3">Valider</button>
           <button data-action="hint" data-target="p3">Indice</button>
