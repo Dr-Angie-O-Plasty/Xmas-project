@@ -78,7 +78,7 @@ function giveHint(target) {
   if (hintsLeft <= 0) { alert('Plus d\'indices disponibles.'); return; }
   hintsLeft--; document.getElementById('hints-left').textContent = hintsLeft;
   if (target === 'p1') alert('Indice p1 : "Vers la gauche pas la droite banane"');
-  if (target === 'p2') alert('Indice p2 : "Reconstitue l\'image !"');
+  if (target === 'p2') alert('Indice p2 : "Commence par la ligne du haut !"');
   if (target === 'p3') alert('Indice p3 : "Toute famille vient par deux"');
 }
 
